@@ -16,8 +16,23 @@ local spawnTimer = 0
 
 -- How likely a rolled character is to actually appear, by tier. Cheap
 -- characters flood the belt; Mythics are a rare sight.
+local tierAccept = {
+	Common = 1.0,
+	Rare = 0.6,
+	Epic = 0.35,
+	Legendary = 0.18,
+	Mythic = 0.08,
+}
+
+-- Pick a character to spawn, weighted so cheap ones show up most.
 local function pickCharacter()
- return BrainrotData.pickCharacter(math.random(), workspace:GetAttribute("EventLuck") or 1)
+	for _ = 1, 20 do
+		local char = BrainrotData.Characters[math.random(#BrainrotData.Characters)]
+		if math.random() <= (tierAccept[char.tier] or 0.3) then
+			return char
+		end
+	end
+	return BrainrotData.Characters[1]
 end
 
 -- The price tag floating over a character on the belt.
@@ -43,7 +58,6 @@ end
 local function spawnOne()
 	local char = pickCharacter()
 	local mutation = BrainrotData.rollMutation()
-	if math.random() < (workspace:GetAttribute("EventGoldChance") or 0) then mutation = "Gold" end
 	local model = BrainrotModels.build(char, mutation)
 	model:PivotTo(CFrame.new(BrainrotData.Conveyor.startX, 1, 0) * CFrame.Angles(0, math.rad(90), 0))
 	model.Parent = workspace.Island
@@ -126,7 +140,7 @@ function ConveyorService.init(deps)
 	spawnTimer = 0
 	game:GetService("RunService").Heartbeat:Connect(function(dt)
 		spawnTimer += dt
-		if spawnTimer >= BrainrotData.Conveyor.spawnInterval * (workspace:GetAttribute("EventSpawnInterval") or 1) then
+		if spawnTimer >= BrainrotData.Conveyor.spawnInterval then
 			spawnTimer = 0
 			spawnOne()
 		end

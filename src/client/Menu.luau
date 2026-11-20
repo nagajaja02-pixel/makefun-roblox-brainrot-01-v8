@@ -66,12 +66,8 @@ local function buildPanel()
 
 	panel = Instance.new("ScrollingFrame")
 	panel.Name = "Panel"
-	panel.Size = UDim2.new(0.94, 0, 0.86, 0)
-	local sizeLimit = Instance.new("UISizeConstraint")
-	sizeLimit.MaxSize = Vector2.new(460, 620)
-	sizeLimit.Parent = panel
-	panel.AnchorPoint = Vector2.new(0.5, 0.5)
-	panel.Position = UDim2.fromScale(0.5, 0.5)
+	panel.Size = UDim2.new(0, 460, 0, 520)
+	panel.Position = UDim2.new(0.5, -230, 0.5, -260)
 	panel.BackgroundColor3 = Color3.fromRGB(25, 25, 35)
 	panel.BorderSizePixel = 0
 	panel.Visible = false
@@ -84,7 +80,7 @@ local function buildPanel()
 	y += 34
 	local rebirthLabel = Instance.new("TextLabel")
 	rebirthLabel.Name = "RebirthInfo"
-	rebirthLabel.Size = UDim2.new(1, -20, 0, 74)
+	rebirthLabel.Size = UDim2.new(1, -20, 0, 30)
 	rebirthLabel.Position = UDim2.new(0, 10, 0, y)
 	rebirthLabel.BackgroundTransparency = 1
 	rebirthLabel.Text = ""
@@ -93,19 +89,7 @@ local function buildPanel()
 	rebirthLabel.Font = Enum.Font.Gotham
 	rebirthLabel.TextXAlignment = Enum.TextXAlignment.Left
 	rebirthLabel.Parent = panel
-    rebirthLabel.TextWrapped = true
-    local track = Instance.new("Frame")
-    track.Size = UDim2.new(1, -20, 0, 10)
-    track.Position = UDim2.fromOffset(10, y + 78)
-    track.BackgroundColor3 = Color3.fromRGB(40, 45, 65)
-    track.BorderSizePixel = 0
-    track.Parent = panel
-    local fill = Instance.new("Frame")
-    fill.Size = UDim2.fromScale(0, 1)
-    fill.BackgroundColor3 = Color3.fromRGB(130, 200, 255)
-    fill.BorderSizePixel = 0
-    fill.Parent = track
-    y += 96
+	y += 34
 	rowButton(panel, "Rebirth: +50% income forever", "REBIRTH", y, function()
 		ReplicatedStorage:WaitForChild("Rebirth"):FireServer()
 	end)
@@ -123,10 +107,19 @@ local function buildPanel()
 
 	heading(panel, "CHARACTER INDEX", y)
 	y += 34
-	rowButton(panel, "Discover the harbor collection", "OPEN INDEX", y, function()
-        require(script.Parent.PremiumIndex).open()
-    end)
-    y += 40
+	for _, char in ipairs(BrainrotData.Characters) do
+		local line = Instance.new("TextLabel")
+		line.Size = UDim2.new(1, -20, 0, 26)
+		line.Position = UDim2.new(0, 10, 0, y)
+		line.BackgroundTransparency = 1
+		line.Text = char.name .. "  •  " .. char.tier .. "  •  $" .. tostring(char.price) .. "  •  $" .. tostring(char.income) .. "/s"
+		line.TextColor3 = Color3.fromRGB(220, 220, 220)
+		line.TextScaled = true
+		line.Font = Enum.Font.Gotham
+		line.TextXAlignment = Enum.TextXAlignment.Left
+		line.Parent = panel
+		y += 28
+	end
 	y += 8
 
 	heading(panel, "SELL (your stands)", y)
@@ -144,22 +137,11 @@ local function buildPanel()
 	-- player's current rebirth count.
 	local stats = player:WaitForChild("leaderstats")
 	local rebirthsValue = stats:WaitForChild("Rebirths")
-	local cashValue = stats:WaitForChild("Cash")
 	local function refreshRebirth()
 		local count = rebirthsValue.Value
-		local cost = BrainrotData.rebirthCost(count)
-        local ratio = math.clamp(cashValue.Value / cost, 0, 1)
-        rebirthLabel.Text = "Rebirth " .. count .. " • $" .. cashValue.Value .. " / $" .. cost .. " (" .. math.floor(ratio * 100) .. "%)"
-            .. "\nIncome: ×" .. (1 + count * BrainrotData.Economy.rebirthBoost) .. " → ×" .. (1 + (count + 1) * BrainrotData.Economy.rebirthBoost)
-            .. "\nSpend the required cash to gain +0.5× base income permanently."
-        game:GetService("TweenService"):Create(fill, TweenInfo.new(0.35), {Size = UDim2.fromScale(ratio, 1)}):Play()
+		rebirthLabel.Text = "Rebirths: " .. tostring(count) .. "  •  next costs $" .. tostring(BrainrotData.rebirthCost(count))
 	end
-	rebirthsValue.Changed:Connect(function()
-        refreshRebirth()
-        rebirthLabel.TextColor3 = Color3.fromRGB(255, 224, 110)
-        game:GetService("TweenService"):Create(rebirthLabel, TweenInfo.new(0.9), {TextColor3 = Color3.fromRGB(220, 220, 220)}):Play()
-    end)
-    cashValue.Changed:Connect(refreshRebirth)
+	rebirthsValue.Changed:Connect(refreshRebirth)
 	refreshRebirth()
 end
 

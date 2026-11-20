@@ -153,23 +153,6 @@ function BrainrotModels.build(char, mutation)
 
 	-- The trait feature that makes this one different from the rest.
 	addTrait(model, char.trait, char.body, char.accent)
- if char.design then
-  -- Each design has a different radial crest, body proportion and orbit.
-  local d = char.design
-  body.Size = Vector3.new(1.5 + d % 4 * 0.25, 1.8 + d % 5 * 0.15, 1.2)
-  body.Shape = (d % 3 == 0) and Enum.PartType.Ball or Enum.PartType.Block
-  for j = 1, 3 + d % 5 do
-   local angle = j * math.pi * 2 / (3 + d % 5)
-   local crest = part(model, "Crest" .. j, Vector3.new(0.25, 0.4 + d * 0.025, 0.25),
-    Vector3.new(math.cos(angle) * 1.1, 3.3, math.sin(angle) * 0.8), char.accent, Enum.Material.Neon)
-   crest.Rotation = Vector3.new(0, d * 13, math.deg(angle))
-  end
-  part(model, "Signature", Vector3.new(0.4, 0.4, 0.4), Vector3.new((d % 3 - 1) * 0.7, 1.4, -0.8), char.accent)
- end
- local palette = require(game:GetService("ReplicatedStorage").Shared.BrainrotData)
- local aura = part(model, "RarityHalo", Vector3.new(2.5, 0.08, 2.5), Vector3.new(0, 0.1, 0), palette.TierColors[char.tier], Enum.Material.Neon)
- aura.Shape = Enum.PartType.Cylinder
- aura.Transparency = 0.45
 
 	-- A mutated character wears a glowing trim so its value is visible.
 	if mutation == "Gold" then

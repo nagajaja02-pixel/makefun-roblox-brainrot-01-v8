@@ -162,7 +162,6 @@ function BaseService.place(player, char, mutation)
 		model = model,
 	}
 	base.placed[slot] = record
-	if services.Collection then services.Collection:discover(player, char.id) end
 	-- Clicking a placed character is a steal attempt by anyone but its
 	-- owner (the owner's own clicks do nothing; selling goes through the
 	-- character menu instead).

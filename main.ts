@@ -12,8 +12,6 @@
 // on the output directory anywhere in this file, only mkdir and copies.
 
 import { cpSync, existsSync, mkdirSync, writeFileSync } from "node:fs";
-import { createHash } from "node:crypto";
-import { readFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { buildDossier } from "./vendor/makefun-roblox.ts";
@@ -42,13 +40,3 @@ if (!existsSync(join(outDir, "game.rbxl"))) {
 // The dossier, byte for byte what the scorer computes from these files.
 const dossier = buildDossier(outDir, { text_max_bytes: 65536 });
 writeFileSync(join(outDir, "dossier.json"), dossier);
-
-// Record the exact prebuilt artifact; building remains a separate Rojo step.
-const placeHash = createHash("sha256").update(readFileSync(join(outDir, "game.rbxl"))).digest("hex");
-writeFileSync(join(outDir, "game.sha256"), placeHash + "\n");
-
-// Refuse a truncated or unrelated artifact before handing it to the runner.
-const placeBytes = readFileSync(join(outDir, "game.rbxl"));
-if (placeBytes.length < 32 || placeBytes.subarray(0, 8).toString("binary") !== "<roblox!") {
-	throw new Error("Expected a Rojo-built binary Roblox place");
-}

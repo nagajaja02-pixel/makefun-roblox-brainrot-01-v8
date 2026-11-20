@@ -108,40 +108,18 @@ function StealService.deliver(thief)
 	carry.model:Destroy()
 	carrying[thief.UserId] = nil
 	services.Base:place(thief, carry.char, carry.mutation)
-	local stats = thief:FindFirstChild("leaderstats")
-	local steals = stats and stats:FindFirstChild("Steals")
-	if steals then steals.Value += 1 end
 	return true
 end
 
 -- Send a carried character back to its owner's stand. If the original
 -- stand is taken, any free stand of the victim will do; with nowhere to
 -- go, the victim is paid the full price instead.
-function StealService.returnCarried(thief, showDrop)
+function StealService.returnCarried(thief)
 	local carry = carrying[thief.UserId]
 	if carry == nil then
 		return false
 	end
 	carrying[thief.UserId] = nil
-    if showDrop then
-        -- A short, noninteractive falling copy makes the failed theft readable.
-        local falling = carry.model:Clone()
-        falling.Name = "DroppedBrainrot"
-        for _, child in ipairs(falling:GetDescendants()) do
-            if child:IsA("BasePart") then
-                child.Anchored = true
-                child.CanCollide = false
-                child.CanQuery = false
-                child.CanTouch = false
-                game:GetService("TweenService"):Create(child, TweenInfo.new(0.35), {
-                    Position = child.Position - Vector3.new(0, 3, 0), Transparency = 1,
-                }):Play()
-            elseif child:IsA("BillboardGui") or child:IsA("ClickDetector")
-                or child:IsA("JointInstance") or child:IsA("WeldConstraint") then child:Destroy() end
-        end
-        falling.Parent = workspace
-        game:GetService("Debris"):AddItem(falling, 0.4)
-    end
 	carry.model:Destroy()
 	local victim = carry.victim
 	local base = services.Base:getBase(victim)
