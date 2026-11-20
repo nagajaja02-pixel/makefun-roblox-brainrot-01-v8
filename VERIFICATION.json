@@ -1,0 +1,211 @@
+{
+  "features": [
+    "basketball combat",
+    "harbor presentation",
+    "global leaderboards",
+    "40-character roster and rarity ladder",
+    "premium collection index",
+    "rebirth progress interface",
+    "seven recurring events",
+    "six admin events and panel"
+  ],
+  "artifact": {
+    "place_bytes": 54723,
+    "place_sha256": "d11e44c8f8eba33bbe7b4cde14b81eeeed19f7d63ce7a134520eff77f54d07df",
+    "dossier_sha256": "3ea0147d90a9518a37f1b0e135451ffc036198b013a3b332d46ba7cfbef8d080",
+    "output_manifest_sha256": "0369a794fcd996281476950e89a8d02c24d47667258c580650fb593db23717f4",
+    "files": 35,
+    "byte_identical": true,
+    "existing_directory_preserved": true
+  },
+  "files_written_or_changed_this_session": [
+    "main.ts",
+    "README.md",
+    "game.rbxl",
+    "src/shared/BrainrotData.luau",
+    "src/shared/EventRules.luau",
+    "src/client/Menu.luau",
+    "src/client/PremiumIndex.luau",
+    "src/client/Events.client.luau",
+    "src/client/Admin.client.luau",
+    "src/server/Bootstrap.server.luau",
+    "src/server/BaseService.luau",
+    "src/server/BrainrotModels.luau",
+    "src/server/CombatService.luau",
+    "src/server/ConveyorService.luau",
+    "src/server/LeaderboardService.luau",
+    "src/server/PresentationService.luau",
+    "src/server/StealService.luau",
+    "src/server/CollectionService.luau",
+    "src/server/EventService.luau",
+    "src/server/AdminService.luau",
+    "src/server/AdminConfig.luau",
+    "tests/run.py",
+    "tests/platform.luau",
+    "tests/verify-output.py",
+    "tests/preserved.json",
+    "VERIFICATION.json"
+  ],
+  "preserved_gameplay_files": {
+    "World.luau": "e19ee7f893f9117aa88fd9b7e50d87d2454688072d302a64b26f9fbaed3c890d",
+    "ShieldService.luau": "347a78481c78ae5d533bf586b78b19226086cb2f63461b6621a6c390110d3ccf",
+    "MerchantService.luau": "87322a48dfbaffc1adf524a6b20f8a147aa7549115831cc4a8d595feddd0a615",
+    "MoneyService.luau": "a97f787a6c7a239f0da1488fc2e769e9a9445afe82ba424d2c617093f357062e",
+    "WaveService.luau": "081ca62a191df4065f3a384dad2f22cd9c24f98666b208c5b1072dbf15448a89"
+  },
+  "map_deleted_or_replaced": false,
+  "shield": {
+    "duration_seconds": 26,
+    "cooldown_seconds": 48,
+    "unchanged": true
+  },
+  "roster_count": 40,
+  "kit": {
+    "path": "/tmp/blitz-current-kit/roblox-brainrot-01-kit",
+    "ok": true,
+    "failed": [],
+    "statuses": {
+      "skip": 17,
+      "pass": 5,
+      "submission": 5
+    },
+    "checks": [
+      {
+        "check": "prerequisites",
+        "status": "skip"
+      },
+      {
+        "check": "competition_open",
+        "status": "pass"
+      },
+      {
+        "check": "snapshot",
+        "status": "pass"
+      },
+      {
+        "check": "license_osi",
+        "status": "pass"
+      },
+      {
+        "check": "entrypoint",
+        "status": "pass"
+      },
+      {
+        "check": "strategy_note",
+        "status": "skip"
+      },
+      {
+        "check": "play_link",
+        "status": "pass"
+      },
+      {
+        "check": "committed_secret",
+        "status": "skip"
+      },
+      {
+        "check": "transcripts_present",
+        "status": "skip"
+      },
+      {
+        "check": "transcripts_recorded",
+        "status": "skip"
+      },
+      {
+        "check": "thinking_wellformed",
+        "status": "skip"
+      },
+      {
+        "check": "thinking_in_window",
+        "status": "skip"
+      },
+      {
+        "check": "thinking_committed",
+        "status": "skip"
+      },
+      {
+        "check": "thinking_reproduces",
+        "status": "skip"
+      },
+      {
+        "check": "thinking_on_task",
+        "status": "skip"
+      },
+      {
+        "check": "thinking_turns",
+        "status": "skip"
+      },
+      {
+        "check": "thinking_priced",
+        "status": "skip"
+      },
+      {
+        "check": "thinking_revised",
+        "status": "skip"
+      },
+      {
+        "check": "thinking_fresh",
+        "status": "skip"
+      },
+      {
+        "check": "transcripts_witnessed",
+        "status": "skip"
+      },
+      {
+        "check": "transcripts_run_record",
+        "status": "skip"
+      },
+      {
+        "check": "thinking_own_work",
+        "status": "skip"
+      },
+      {
+        "check": "repo_public",
+        "status": "submission"
+      },
+      {
+        "check": "repo_owner",
+        "status": "submission"
+      },
+      {
+        "check": "repo_created_after_open",
+        "status": "submission"
+      },
+      {
+        "check": "commit_in_repo",
+        "status": "submission"
+      },
+      {
+        "check": "duplicate_snapshot",
+        "status": "submission"
+      }
+    ]
+  },
+  "tests": [
+    "PASS catalogue: 40 unique entries, positive economics, normalized probabilities, all 40 selectable, unchanged shield/rebirth",
+    "PASS six admin events; whitelist, active-event, cooldown, malformed and unknown command rejection",
+    "PASS seven regular event definitions, schedule and theme rewards",
+    "PASS combat: valid hit; cooldown, distance, facing, death, equipment and wall rejection",
+    "PASS dependency adapter preserves both existing colon consumers and dot exports",
+    "PASS presentation runtime: geometry preserved, 24 nonblocking decorations, lighting and sky created",
+    "PASS leaderboard runtime: ordered-store writes, global refresh, player names and board construction",
+    "PASS all 40 actual 3D model constructors, rarity halos and distinct new geometry",
+    "PASS discovery during load and additive UpdateAsync merge preserves existing collection",
+    "PASS 13 event lifecycles, overlap rejection, rewards, environment restoration and error cleanup",
+    "PASS index UI construction: six preview limit, search, silhouette, detail selection, live discovery and rarity filter",
+    "PASS rebirth progress/cost/multiplier animation path and original rebirth, merchant-buy, sell remote contracts",
+    "PASS actual admin remote: unauthorized/malformed commands rejected, owner authorized, repeated command throttled",
+    "PASS actual basketball service: free grant, unequipped rejection, server-chosen target, theft drop, knockback and cooldown",
+    "PASS theft integration: owner receives character exactly once, delivery fails, falling copy has no joints or interaction",
+    "PASS all source files compile; preserved gameplay files match baseline"
+  ],
+  "limitations": [
+    "Roblox Studio and a connected Studio testing tool are unavailable in this Linux workspace; no claim of visual playtesting or measured mobile performance.",
+    "Module tests use lightweight Roblox substitutes; live DataStores, avatar loading and multiplayer replication need Studio/live validation.",
+    "Kit skips recording checks while recording remains active, and defers repository submission checks. Zero failures does not mean every deferred check passed.",
+    "The requested UI sections were redesigned. Existing merchant buy/sell and rebirth remote contracts pass module tests; visual equivalence of untouched HUD was not tested.",
+    "Admin IDs must be configured for group-owned experiences; user-owned experience owner is authorized by server-derived numeric ID.",
+    "Local update has not been published to the live Roblox experience."
+  ],
+  "no_commit_push_or_recording_stop": true,
+  "entrypoint_revisions": "main.ts revised in two separate tool-call messages with substantive new lines: artifact SHA-256 output, then binary place validation."
+}
