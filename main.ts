@@ -11,7 +11,7 @@
 // which fails the whole entry. So there is no rmSync, no rm and no unlink
 // on the output directory anywhere in this file, only mkdir and copies.
 
-import { cpSync, existsSync, mkdirSync, writeFileSync } from "node:fs";
+import { cpSync, existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { buildDossier } from "./vendor/makefun-roblox.ts";
@@ -21,6 +21,11 @@ const repoRoot = dirname(fileURLToPath(import.meta.url));
 
 // The grader names the output directory; /output is the fallback.
 const outDir = process.env.MAKEFUN_OUTPUT_DIR || "/output";
+
+// Fail before touching output when the required Rojo build is missing.
+if (!existsSync(join(repoRoot, "game.rbxl"))) {
+	throw new Error("Build the place first: rojo build -o game.rbxl");
+}
 
 // Create the output directory when it is missing. Never remove it.
 mkdirSync(outDir, { recursive: true });
@@ -35,6 +40,11 @@ cpSync(join(repoRoot, "screenshots"), join(outDir, "screenshots"), { recursive: 
 // Sanity check: the place must have landed in the output directory.
 if (!existsSync(join(outDir, "game.rbxl"))) {
 	throw new Error("game.rbxl did not reach the output directory");
+}
+
+// Detect a truncated or otherwise incomplete place copy before publishing a dossier.
+if (!readFileSync(join(repoRoot, "game.rbxl")).equals(readFileSync(join(outDir, "game.rbxl")))) {
+	throw new Error("Copied place differs from the Rojo build");
 }
 
 // The dossier, byte for byte what the scorer computes from these files.
