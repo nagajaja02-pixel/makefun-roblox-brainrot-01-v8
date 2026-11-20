@@ -13,6 +13,7 @@ local Conveyor = require(script.ConveyorService)
 local Merchant = require(script.MerchantService)
 
 local map = World.buildHarbor()
+require(script.HarborDetailService).build(map)
 local bases = Base.build(map)
 local states = {}
 local function openRebirthStore()
@@ -149,7 +150,7 @@ local function assignSafehouse(player)
 		return
 	end
 	base.owner = player
-	local state = { player = player, base = base, slots = {}, cash = Base.startingCash, rate = 0, level = 1, rebirths = 0 }
+	local state = { player = player, base = base, slots = {}, cash = Base.startingCash, rate = 0, level = 1, rebirths = 0, savingRebirth = true }
 	states[player] = state
 	player:SetAttribute("Carrying", "")
 	player:SetAttribute("Home", base.entrance)
@@ -207,9 +208,17 @@ Players.PlayerRemoving:Connect(function(player)
 	if not state then
 		return
 	end
+	state.savingRebirth = true
 	if state.carry then
 		Steal.returnRaid(state, states, raidStand, notify)
 	end
+	-- Settle raids before persisting mutation inventory so reconnects cannot duplicate stolen units.
+	for _, carrier in pairs(states) do
+		if carrier ~= state and carrier.carry and carrier.carry.source == state then
+			Steal.returnRaid(carrier, states, raidStand, notify)
+		end
+	end
+	require(script.MutationService).save(player)
 	Base.clearCollection(state)
 	state.base.owner = nil
 	Shield.clear(state.base)
@@ -229,6 +238,10 @@ require(script.BatService).start(states, raidStand, notify)
 local conveyor = Conveyor.new(map, states, notify)
 local wave = Wave.new(map)
 Merchant.build(map, states, notify)
+require(script.MutationService).start(states, raidStand)
+local events = require(script.EventService).start(map, states, conveyor)
+require(script.AdminService).start(states, conveyor, events, raidStand, notify)
+require(script.GearService).start(map, states, raidStand, notify)
 for _, player in ipairs(Players:GetPlayers()) do
 	task.spawn(assignSafehouse, player)
 end

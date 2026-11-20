@@ -8,6 +8,7 @@ local function publish(player, owned)
 	for id in pairs(owned) do player:SetAttribute("Discovered_" .. id, true) end
 end
 function Collection.record(player, unit)
+	require(script.Parent.MutationService).record(player, unit)
 	for id, entry in ipairs(Data.cast) do
 		if entry == unit.entry then
 			local session = sessions[player]

@@ -81,6 +81,10 @@ function Steal.beginRaid(player, victim, index, slot, states, notify)
 		or victim.slots[index] ~= slot or slot.inTransit or not slot.model or not World.near(player, slot.model.PrimaryPart) then
 		return
 	end
+	if not victim.lastAttackAlert or os.clock() - victim.lastAttackAlert > 5 then
+		victim.lastAttackAlert = os.clock()
+		notify(victim.player, "BASE ALERT: " .. player.DisplayName .. " is attacking!", "warning")
+	end
 	if workspace:GetServerTimeNow() < victim.lockUntil then
 		notify(player, "That safehouse is shielded.", "warning")
 		return
@@ -107,6 +111,8 @@ local function removeSourceSlot(state, carry, notify)
 	if slot and slot.inTransit then
 		source.slots[carry.sourceIndex] = nil
 		if source ~= state then
+			state.steals = (state.steals or 0) + 1
+			state.player:SetAttribute("Steals", state.steals)
 			Money.publish(source)
 			notify(source.player, carry.unit.entry[1] .. " was stolen.", "warning")
 		end

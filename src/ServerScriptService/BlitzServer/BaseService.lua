@@ -20,6 +20,35 @@ local plotColors = {
 	Color3.fromRGB(197, 119, 247), Color3.fromRGB(103, 200, 92), Color3.fromRGB(248, 177, 56),
 }
 
+-- Surface-only brickwork: no overlapping physical skins or new collision geometry.
+local function studdedExterior(wall, face)
+ wall.Color=Color3.fromRGB(115,122,132)
+ local surface=Instance.new("SurfaceGui")
+ surface.Name="Studded gray brickwork"; surface.Face=face
+ surface.SizingMode=Enum.SurfaceGuiSizingMode.PixelsPerStud; surface.PixelsPerStud=20
+ surface.AlwaysOnTop=false; surface.LightInfluence=1; surface.ZOffset=0.01
+ surface.Parent=wall
+ local horizontal=(face==Enum.NormalId.Left or face==Enum.NormalId.Right) and wall.Size.Z or wall.Size.X
+ local columns=math.max(1,math.ceil(horizontal/2.4))
+ local rows=math.max(1,math.ceil(wall.Size.Y/2.4))
+ for row=0,rows-1 do
+  for column=0,columns-1 do
+   local tile=Instance.new("Frame"); tile.Name="Brick"
+   tile.Size=UDim2.new(1/columns,-2,1/rows,-2); tile.Position=UDim2.new(column/columns,1,row/rows,1)
+   tile.BorderSizePixel=0
+   tile.BackgroundColor3=(row+column)%2==0 and Color3.fromRGB(143,150,160) or Color3.fromRGB(127,134,145)
+   tile.Parent=surface
+   local stud=Instance.new("Frame"); stud.Name="Stud rim"; stud.AnchorPoint=Vector2.new(0.5,0.5)
+   stud.Position=UDim2.fromScale(0.5,0.5); stud.Size=UDim2.fromOffset(12,12)
+   stud.BorderSizePixel=0; stud.BackgroundColor3=Color3.fromRGB(94,101,112); stud.Parent=tile
+   local round=Instance.new("UICorner"); round.CornerRadius=UDim.new(0.5,0); round.Parent=stud
+   local top=Instance.new("Frame"); top.Name="Stud cap"; top.Position=UDim2.fromOffset(1,0); top.Size=UDim2.fromOffset(10,10)
+   top.BorderSizePixel=0; top.BackgroundColor3=Color3.fromRGB(177,183,192); top.Parent=stud
+   local capRound=round:Clone(); capRound.Parent=top
+  end
+ end
+end
+
 function Base.build(map)
 	local bases = {}
 	for _, z in ipairs({ -World.plotRow, World.plotRow }) do
@@ -75,6 +104,19 @@ function Base.build(map)
 			local fascia = part("Safehouse nameboard", Vector3.new(doorWidth, wallTop - doorTop, cornerWidth),
 				0, (wallTop + doorTop) / 2, -shieldZ, World.ink, flat)
 			World.surfaceSign(fascia, string.format("SAFEHOUSE  %02d", plot), World.white)
+			for _,wall in ipairs(model:GetChildren()) do
+                if wall:IsA("BasePart") then
+                    if wall.Name=="Rear service wall" then studdedExterior(wall,Enum.NormalId.Back)
+                    elseif wall.Name=="Front wall" or wall.Name=="Safehouse nameboard" then
+                        -- Leave the existing nameboard sign face unobscured.
+                        if wall.Name=="Front wall" then studdedExterior(wall,Enum.NormalId.Front) end
+                    elseif wall.Name=="Side wall" or wall.Name=="Side window header" or wall.Name=="Shield corner pier" then
+                        local localPosition=frame:PointToObjectSpace(wall.Position)
+                        studdedExterior(wall,localPosition.X<0 and Enum.NormalId.Left or Enum.NormalId.Right)
+                        if wall.Name=="Shield corner pier" then studdedExterior(wall,localPosition.Z<0 and Enum.NormalId.Front or Enum.NormalId.Back) end
+                    end
+                end
+            end
 			local gate = detail("Shield status", 4, 0.18, 0.14, 0, 7.36, -shieldZ - 0.53, World.aqua, neon)
 			local title = World.sign(gate, "AVAILABLE SAFEHOUSE", World.white, 255, 34, Vector3.new(0, 2.8, 0))
 			local drop = detail("Drop zone", 9, 0.03, 6, 0, 0.415, -14, World.aqua, neon)

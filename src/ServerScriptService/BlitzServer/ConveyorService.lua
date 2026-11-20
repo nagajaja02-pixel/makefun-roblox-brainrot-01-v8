@@ -19,8 +19,9 @@ function Conveyor.new(map, states, notify)
 	return self
 end
 
-function Conveyor:spawnOffer(x, unit)
+function Conveyor:spawnOffer(x, unit, scale)
 	local model = Models.sculpt(self.map, unit, CFrame.new(x, pivotHeight, 0), string.format("$%d", unit.price))
+	if scale then model:ScaleTo(scale) end
 	local label = model.PrimaryPart:FindFirstChildOfClass("BillboardGui")
 	label.AlwaysOnTop = false
 	label:AddTag("ConveyorBrainrotLabel")

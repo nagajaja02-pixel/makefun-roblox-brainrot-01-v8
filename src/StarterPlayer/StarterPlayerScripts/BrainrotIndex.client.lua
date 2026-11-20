@@ -6,7 +6,7 @@ local templates = Storage:WaitForChild("BlitzIndexModels")
 local gui = Instance.new("ScreenGui")
 gui.Name = "BrainrotIndex"
 gui.ResetOnSpawn = false
-gui.DisplayOrder = 10
+gui.DisplayOrder = 30
 gui.Parent = player:WaitForChild("PlayerGui")
 local function text(class, parent, content, size, position)
 	local item = Instance.new(class)
@@ -19,7 +19,9 @@ local function text(class, parent, content, size, position)
 	item.Parent = parent
 	return item
 end
-local toggle = text("TextButton", gui, "INDEX", UDim2.fromOffset(92, 40), UDim2.new(0, 12, 0, 100))
+local toggle = Instance.new("BindableEvent")
+toggle.Name = "Toggle"
+toggle.Parent = gui
 local panel = Instance.new("Frame")
 panel.AnchorPoint = Vector2.new(0.5, 0.5)
 panel.Position = UDim2.fromScale(0.5, 0.5)
@@ -27,6 +29,11 @@ panel.Size = UDim2.new(1, -20, 0.85, 0)
 panel.BackgroundColor3 = Color3.fromRGB(17, 25, 40)
 panel.Visible = false
 panel.Parent = gui
+panel.Active = true
+gui:SetAttribute("IsOpen", false)
+panel:GetPropertyChangedSignal("Visible"):Connect(function()
+ gui:SetAttribute("IsOpen", panel.Visible)
+end)
 local limit = Instance.new("UISizeConstraint")
 limit.MaxSize = Vector2.new(960, 740)
 limit.Parent = panel
@@ -113,7 +120,7 @@ end
 local function resize()
 	local width = math.max(100, list.AbsoluteSize.X - 8)
 	local columns = math.max(1, math.floor((width + 8) / 168))
-	for _, grid in ipairs(grids) do grid.CellSize = UDim2.fromOffset(math.floor((width - (columns - 1) * 8) / columns), 220) end
+	for _, grid in ipairs(grids) do grid.CellSize = UDim2.fromOffset(math.floor((width - (columns - 1) * 8) / columns), 308) end
 end
 local function refresh()
 	local count = 0
@@ -142,6 +149,19 @@ local function refresh()
 			card.name.Text = owned and entry[1] or "???"
 			card.detail.Text = owned and string.format("$%d • +$%d/s\n%s", entry[3], entry[4], Data.rarities[entry[2]].name) or "Not discovered"
 		end
+		if owned then
+			local mutations = {}
+			for _, mutation in ipairs({"Gold","Diamond","Rainbow","Electric","Poison","Cosmic","Celestial"}) do
+				if player:GetAttribute("Mutation_"..id.."_"..mutation) then
+					local spec = Data.mutations[mutation]
+					table.insert(mutations, mutation.." x"..spec.multiplier.." • "..spec.effect)
+				end
+			end
+			card.detail.Text = string.format("$%d • +$%d/s • %s",entry[3],entry[4],Data.rarities[entry[2]].name)
+				.. (#mutations > 0 and ("\n"..table.concat(mutations,"\n")) or "\nNo mutations discovered")
+			local height = math.max(46, 28 + #mutations * 15)
+			card.detail.Size = UDim2.new(1,-8,0,height)
+		end
 		-- Search only revealed names, so searching cannot disclose locked identities.
 		local matches = query == "" or (owned and string.find(string.lower(entry[1]), query, 1, true) ~= nil)
 		card.frame.Visible = (selected == 0 or selected == entry[2]) and matches
@@ -160,8 +180,9 @@ for tier = 0, #Data.rarities do
 	button.Activated:Connect(function() selected = tier; refresh() end)
 end
 for id in ipairs(Data.cast) do player:GetAttributeChangedSignal("Discovered_" .. id):Connect(refresh) end
+player.AttributeChanged:Connect(function(name) if name:sub(1,9) == "Mutation_" then refresh() end end)
 search:GetPropertyChangedSignal("Text"):Connect(refresh)
 list:GetPropertyChangedSignal("AbsoluteSize"):Connect(resize)
-toggle.Activated:Connect(function() panel.Visible = not panel.Visible; if panel.Visible then refresh() end end)
+toggle.Event:Connect(function() panel.Visible = not panel.Visible; if panel.Visible then refresh() end end)
 close.Activated:Connect(function() panel.Visible = false end)
 refresh()

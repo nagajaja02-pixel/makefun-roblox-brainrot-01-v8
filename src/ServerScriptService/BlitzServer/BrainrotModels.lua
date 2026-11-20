@@ -217,6 +217,159 @@ cast.saturnita = function(p, face, hue)
 	face(0, 2.85, -1.04, 0.35, 0.67, 0.025, 0.04, 0.19)
 end
 
+-- Round 2 additions. Existing thirteen sculpts above remain unchanged.
+cast.toast = function(p, face, hue)
+ p("Toast crust",2,2.1,0.65,0,1.9,0,hue,nil)
+ p("Bread center",1.65,1.75,0.16,0,1.95,-0.4,ivory)
+ for _,side in ipairs({-1,1}) do p("Wheel",0.6,0.6,0.42,side*0.85,0.36,0,ink,ball) end
+ p("Butter",0.65,0.3,0.15,0,2.65,-0.52,gold)
+ for _,side in ipairs({-1,1}) do p("Foot",0.5,0.45,0.75,side*0.5,0.23,-0.15,hue,ball) end
+ face(0,2.05,-0.8,0.3,0.62,0.02,0.12,0.26)
+end
+
+cast.donut = function(p, face, hue)
+ for i=1,12 do local a=i*math.pi/6; p("Donut dough",0.65,0.65,0.7,math.cos(a)*0.73,1.8+math.sin(a)*0.73,0,gold,ball); p("Pink icing",0.58,0.56,0.18,math.cos(a)*0.73,1.8+math.sin(a)*0.73,-0.38,hue,ball) end
+ p("Duck head",1.1,0.9,0.9,0,3,0,gold,ball)
+ p("Duck bill",0.85,0.22,0.65,0,2.7,-0.55,rose)
+ face(0,3.1,-0.46,0.3,0.62,0.02,0.12,0.26)
+end
+
+cast.sushi = function(p, face, hue)
+ p("Seaweed roll",1.9,1.65,1.4,0,1.7,0,ink)
+ p("Rice",1.75,0.25,1.3,0,2.6,0,ivory)
+ p("Salmon topping",1.9,0.3,1.4,0,2.85,0,hue)
+ for _,side in ipairs({-1,1}) do p("Cat ear",0.55,0.65,0.55,side*0.62,3.1,0,hue,nil,side*0.3); p("Whisker",0.6,0.06,0.08,side*0.8,1.6,-0.75,ivory) end
+ for _,side in ipairs({-1,1}) do p("Foot",0.5,0.45,0.75,side*0.5,0.23,-0.15,hue,ball) end
+ face(0,2.05,-0.8,0.3,0.62,0.02,0.12,0.26)
+end
+
+cast.sandal = function(p, face, hue)
+ p("Banana sole",1.5,0.5,2.8,0,0.65,0,hue,ball)
+ p("Sandal strap",1.6,0.5,0.4,0,1,-0.35,rose)
+ p("Banana upright",0.85,2.4,0.8,0,2,0.6,hue,ball,-0.25)
+ p("Banana tip",0.35,0.4,0.35,0.3,3.25,0.6,brown)
+ face(0,2.3,0.15,0.3,0.62,0.02,0.12,0.26)
+end
+
+cast.radio = function(p, face, hue)
+ p("Radio body",2.1,1.7,0.9,0,1.65,0,hue)
+ p("Speaker",0.14,1,1,-0.5,1.5,-0.52,ink,tube,math.pi/2).Orientation=Vector3.new(0,90,0)
+ for _,side in ipairs({-1,1}) do p("Frog eye mound",0.7,0.7,0.7,side*0.6,2.65,0,hue,ball) end
+ p("Antenna",0.08,1.2,0.08,0.85,3,0,silver,nil,-0.3)
+ p("Tuning dial",0.35,0.35,0.2,0.6,1.2,-0.55,gold,ball)
+ for _,side in ipairs({-1,1}) do p("Foot",0.5,0.45,0.75,side*0.5,0.23,-0.15,hue,ball) end
+ face(0,2.65,-0.36,0.3,0.62,0.02,0.12,0.26)
+end
+
+cast.umbrella = function(p, face, hue)
+ p("Penguin body",1.5,2.2,1.3,0,1.6,0,ink,ball)
+ p("White belly",1,1.5,0.3,0,1.4,-0.6,ivory,ball)
+ p("Beak",0.6,0.3,0.6,0,2,-0.85,gold)
+ p("Umbrella shaft",0.12,2.8,0.12,1.1,2,0,silver)
+ for i=1,8 do local a=i*math.pi/4; p("Umbrella canopy",1.4,0.3,1.2,0.55+math.cos(a)*0.7,3.45,math.sin(a)*0.7,i%2==0 and hue or gold,ball) end
+ for _,side in ipairs({-1,1}) do p("Foot",0.5,0.45,0.75,side*0.5,0.23,-0.15,hue,ball) end
+ face(0,2.4,-0.6,0.3,0.62,0.02,0.12,0.26)
+end
+
+cast.mushroom = function(p, face, hue)
+ p("Giraffe neck",0.65,2.3,0.7,0,1.8,0,gold)
+ p("Giraffe muzzle",1.2,0.8,1.1,0,2.7,-0.2,gold,ball)
+ p("Mushroom cap",2.5,0.9,1.9,0,3.35,0,hue,ball)
+ for _,side in ipairs({-1,1}) do p("Cap spot",0.5,0.12,0.45,side*0.65,3.76,0,ivory,ball); p("Neck spot",0.2,0.3,0.08,side*0.2,1.6,-0.38,brown) end
+ for _,side in ipairs({-1,1}) do p("Foot",0.5,0.45,0.75,side*0.5,0.23,-0.15,hue,ball) end
+ face(0,2.8,-0.76,0.3,0.62,0.02,0.12,0.26)
+end
+
+cast.rocket = function(p, face, hue)
+ p("Meatball",1.8,1.8,1.8,0,2,0,hue,ball)
+ p("Rocket nose",0.9,1.1,0.9,0,3.1,0,silver,ball)
+ p("Soup bowl",2.1,0.6,1.7,0,0.85,0,ivory,ball)
+ for _,side in ipairs({-1,1}) do p("Rocket booster",0.45,1.6,0.55,side*1,1.6,0,silver); p("Flame",0.4,0.7,0.4,side*1,0.5,0,gold,ball) end
+ for _,side in ipairs({-1,1}) do p("Foot",0.5,0.45,0.75,side*0.5,0.23,-0.15,hue,ball) end
+ face(0,2.05,-0.8,0.3,0.62,0.02,0.12,0.26)
+end
+
+cast.guitar = function(p, face, hue)
+ p("Octopus head",1.8,1.5,1.4,0,2.7,0,hue,ball)
+ for i=1,8 do local a=i*math.pi/4; p("Tentacle",0.45,1.3,0.45,math.cos(a)*1.05,0.9,math.sin(a)*0.7,hue,ball,math.cos(a)*0.55) end
+ p("Guitar body",1.4,1.5,0.4,0,1.4,-0.85,gold,ball)
+ p("Guitar neck",0.3,1.6,0.25,0.55,2.2,-0.9,brown,nil,-0.45)
+ for i=1,3 do p("String",0.025,1.2,0.03,(i-2)*0.12,1.5,-1.08,ivory) end
+ face(0,2.8,-0.68,0.3,0.62,0.02,0.12,0.26)
+end
+
+cast.chef = function(p, face, hue)
+ p("Cactus",1.5,2,1.25,0,1.65,0,hue,ball)
+ for _,side in ipairs({-1,1}) do p("Cactus arm",0.5,1.4,0.5,side*0.95,1.9,0,hue,ball,side*0.4) end
+ p("Chef hat band",1.5,0.5,1.25,0,2.85,0,ivory)
+ for i=-1,1 do p("Chef hat puff",0.85,0.85,0.9,i*0.5,3.3,0,ivory,ball) end
+ p("Apron",1.05,0.9,0.12,0,1.25,-0.64,ivory)
+ p("Spatula",0.6,0.6,0.12,1.3,2.65,0,silver)
+ for _,side in ipairs({-1,1}) do p("Foot",0.5,0.45,0.75,side*0.5,0.23,-0.15,hue,ball) end
+ face(0,2.05,-0.8,0.3,0.62,0.02,0.12,0.26)
+end
+
+cast.dragon = function(p, face, hue)
+ p("Pineapple dragon",1.65,2,1.4,0,1.65,0,hue,ball)
+ p("Dragon snout",1.4,0.7,1,0,2.4,-0.5,hue,ball)
+ for _,side in ipairs({-1,1}) do p("Dragon wing",1.2,1.7,0.25,side*1.15,2.1,0.3,green,nil,side*-0.55); p("Leaf horn",0.3,1,0.3,side*0.45,3.1,0,green,ball,side*0.3) end
+ p("Tail",0.55,0.55,1.8,0,1.1,1.1,hue,ball)
+ for _,side in ipairs({-1,1}) do p("Foot",0.5,0.45,0.75,side*0.5,0.23,-0.15,hue,ball) end
+ face(0,2.6,-0.95,0.3,0.62,0.02,0.12,0.26)
+end
+
+cast.tv = function(p, face, hue)
+ for i=-3,3 do local a=i*0.38; p("Peacock feather",0.55,2,0.3,math.sin(a)*1.6,2.1+math.cos(a)*0.6,0.6,hue,ball,-a); p("Feather eye",0.3,0.4,0.15,math.sin(a)*2,2.5+math.cos(a)*0.8,0.4,gold,ball) end
+ p("Television",2,1.6,0.9,0,1.65,-0.2,ink)
+ p("Screen",1.7,1.25,0.15,0,1.65,-0.72,hue)
+ for _,side in ipairs({-1,1}) do p("TV aerial",0.08,0.9,0.08,side*0.35,2.8,0,silver,nil,side*-0.65) end
+ for _,side in ipairs({-1,1}) do p("Foot",0.5,0.45,0.75,side*0.5,0.23,-0.15,hue,ball) end
+ face(0,2.05,-0.8,0.3,0.62,0.02,0.12,0.26)
+end
+
+cast.piano = function(p, face, hue)
+ p("Piano shell",2.1,1.6,1.25,0,1.8,0,hue)
+ for i=1,9 do p("Ivory key",0.2,0.18,0.5,-1+i*0.2,1.2,-0.8,ivory); if i%3~=0 then p("Black key",0.1,0.13,0.25,-1+i*0.2,1.34,-0.65,ink) end end
+ for _,side in ipairs({-1,1}) do p("Crab claw",0.75,0.7,0.7,side*1.5,2,0,hue,ball); for i=1,3 do p("Crab leg",1.1,0.17,0.2,side*1.1,0.35+i*0.18,(i-2)*0.45,hue,nil,side*0.4) end end
+ face(0,2.05,-0.8,0.3,0.62,0.02,0.12,0.26)
+end
+
+cast.moon = function(p, face, hue)
+ p("Moon rhino",2.2,2,1.6,0,1.8,0,hue,ball)
+ p("Rhino muzzle",1.5,0.9,1,0,1.8,-0.9,hue,ball)
+ p("Lunar horn",0.4,1.2,0.45,0,2.4,-1.1,ivory,ball,-0.2)
+ for _,side in ipairs({-1,1}) do p("Moon crater",0.5,0.6,0.1,side*0.7,2.3,-0.68,silver,ball); p("Rhino ear",0.5,0.6,0.4,side*0.8,2.9,0,hue,ball) end
+ for _,side in ipairs({-1,1}) do p("Foot",0.5,0.45,0.75,side*0.5,0.23,-0.15,hue,ball) end
+ face(0,2.5,-0.7,0.3,0.62,0.02,0.12,0.26)
+end
+
+cast.comet = function(p, face, hue)
+ p("Komodo body",1.4,1.8,1.5,0,1.6,0,hue,ball)
+ p("Komodo snout",1.3,0.65,1.3,0,2.1,-0.7,hue,ball)
+ for i=1,5 do p("Comet tail",0.65-i*0.07,0.65-i*0.07,0.65,0,1.3+i*0.2,0.7+i*0.38,i%2==0 and gold or silver,ball); p("Dorsal star",0.3,0.5,0.25,0,2.5-i*0.2,i*0.35,gold,nil,math.pi/4) end
+ for _,side in ipairs({-1,1}) do p("Foot",0.5,0.45,0.75,side*0.5,0.23,-0.15,hue,ball) end
+ face(0,2.4,-0.75,0.3,0.62,0.02,0.12,0.26)
+end
+
+cast.jelly = function(p, face, hue)
+ p("Jelly bell",2.2,1.4,1.8,0,2.35,0,hue,ball)
+ for i=1,8 do local a=i*math.pi/4; p("Jelly tentacle",0.2,1.8,0.2,math.cos(a)*0.8,1,math.sin(a)*0.6,hue,ball,math.cos(a)*0.25) end
+ p("Crown band",1.4,0.3,1.1,0,3.1,0,gold)
+ for i=-1,1 do p("Crown point",0.25,0.7,0.3,i*0.5,3.5,0,gold,nil,i*0.2); p("Crown gem",0.22,0.22,0.2,i*0.5,3.8,-0.05,silver,ball) end
+ face(0,2.05,-0.8,0.3,0.62,0.02,0.12,0.26)
+end
+
+cast.galaxy = function(p, face, hue)
+ p("Swan body",2,1.3,2,0,1.2,0,hue,ball)
+ p("Swan neck",0.55,1.9,0.6,0,2.2,-0.6,ivory,ball,-0.25)
+ p("Swan head",0.95,0.85,0.95,0.2,3.1,-0.65,hue,ball)
+ p("Golden beak",0.6,0.25,0.7,0.2,2.9,-1.25,gold)
+ for _,side in ipairs({-1,1}) do p("Nebula wing",0.7,1.7,1.6,side*1.05,1.8,0,hue,ball,side*-0.55) end
+ for i=1,14 do local a=i*math.pi/7; p("Orbit star",0.22,0.22,0.22,math.cos(a)*1.8,2+math.sin(a)*0.7,math.sin(a)*1.1,gold,nil,math.pi/4) end
+ for _,side in ipairs({-1,1}) do p("Foot",0.5,0.45,0.75,side*0.5,0.23,-0.15,hue,ball) end
+ face(0.2,3.2,-1.1,0.3,0.62,0.02,0.12,0.26)
+end
+
 local function addLabel(pivot, unit, caption)
 	local board = Instance.new("BillboardGui")
 	board.Name = "Brainrot label"
@@ -249,7 +402,8 @@ local function addLabel(pivot, unit, caption)
 	end
 
 	if unit.mutation ~= "" then
-		line(unit.mutation, unit.mutation == "Gold" and gold or rgb(176, 245, 255), 0, 14, 12)
+		local spec = require(game.ReplicatedStorage.MutationData)[unit.mutation]
+		line(unit.mutation .. " x" .. spec.multiplier .. " • " .. spec.effect, spec.color, 0, 14, 10)
 	end
 	local name = line(unit.entry[1], ivory, 14, 20, 16)
 	name.TextScaled = true
@@ -311,6 +465,7 @@ function Models.sculpt(parent, unit, pose, caption)
 		end
 	end
 
+	require(script.Parent.MutationService).decorate(model, unit)
 	if caption then
 		addLabel(pivot, unit, caption)
 	end

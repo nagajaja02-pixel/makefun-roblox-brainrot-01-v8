@@ -130,6 +130,10 @@ function Menu.mount(hud, player)
 		text(button, "TextLabel", option[2], 34, UDim2.new(), UDim2.new(1, 0, 0, 40))
 		text(button, "TextLabel", option[1], 14, UDim2.fromOffset(0, 37), UDim2.new(1, 0, 0, 21))
 		button.Activated:Connect(function()
+			if option[1] == "Index" then
+				player.PlayerGui:WaitForChild("BrainrotIndex"):WaitForChild("Toggle"):Fire()
+				return
+			end
 			title.Text = option[1]
 			window.BackgroundColor3 = option[3]
 			rebirth.Visible = option[4] == rebirth
